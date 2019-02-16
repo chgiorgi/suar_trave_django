@@ -111,6 +111,6 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
-LOGIN_REDIRECT_URL = 'tours/index'
-LOGOUT_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = '../../'
+LOGOUT_REDIRECT_URL = '../../'
 
