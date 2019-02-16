@@ -5,6 +5,6 @@ app_name='tours'
 
 
 urlpatterns=[
-	url(r'^$',views.Home.as_view(),name='home')
+	url(r'^$',views.Home.as_view(),name='index')
 ]
 

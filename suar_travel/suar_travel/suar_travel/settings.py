@@ -39,6 +39,7 @@ INSTALLED_APPS = [
 	'django.contrib.staticfiles',
 	'tours',
 	'user_managment',
+	'bootstrap4'
 ]
 
 MIDDLEWARE = [
@@ -86,17 +87,8 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
 	{
-		'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-	},
-	{
 		'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-	},
-	{
-		'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-	},
-	{
-		'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-	},
+	}
 ]
 
 # Internationalization
@@ -118,3 +110,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
+
+LOGIN_REDIRECT_URL = 'tours/index'
+LOGOUT_REDIRECT_URL = 'index'
+

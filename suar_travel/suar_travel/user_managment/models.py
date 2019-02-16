@@ -7,6 +7,7 @@ from django.contrib.auth import models as a_model
 
 class User(a_model.User,a_model.PermissionsMixin):
 
+
 	def __str__(self):
 		return "@{}".format(self.username)
 
