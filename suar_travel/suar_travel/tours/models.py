@@ -15,6 +15,8 @@ class Tour(models.Model):
 	duration = models.DurationField(blank=True)
 	slug = models.SlugField(allow_unicode=True, unique=True)
 	active = models.BooleanField(default=True)
+	main_picture = models.ImageField(upload_to='pictures', blank=True)
+	picture = models.ImageField(upload_to='pictures', blank=True)
 
 	def get_absolute_url(self):
 		return reverse('html name', kwargs={'slug': self.slug})
