@@ -17,7 +17,8 @@ class ToursForm(forms.ModelForm):
 
 
 class ImageForm(forms.ModelForm):
-	image = forms.ImageField(label='Image')
+	image = forms.ImageField(label='Image ', widget=forms.ClearableFileInput(attrs={'multiple': True}))
+	main_image = forms.ImageField(label='Main Image ', widget=forms.ClearableFileInput())
 
 	class Meta:
 		model = Images
