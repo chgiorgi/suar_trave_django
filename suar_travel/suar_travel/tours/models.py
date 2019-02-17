@@ -15,8 +15,7 @@ class Tour(models.Model):
 	duration = models.DurationField(blank=True)
 	slug = models.SlugField(allow_unicode=True, unique=True)
 	active = models.BooleanField(default=True)
-	main_picture = models.ImageField(upload_to='pictures', blank=True)
-	picture = models.ImageField(upload_to='pictures', blank=True)
+
 
 	def get_absolute_url(self):
 		return reverse('html name', kwargs={'slug': self.slug})
@@ -68,3 +67,13 @@ class Order(models.Model):
 
 	class Meta:
 		permissions = (('can_cancel', 'user can cancel'), ('can_accept', 'admin can approve or reject'))
+
+
+class Images(models.Model):
+	tour = models.ForeignKey(Tour, default=None, related_name='images', on_delete=False)
+	image = models.ImageField(upload_to='pictures', verbose_name='Image')
+	is_main = models.BooleanField(default=False)
+
+	def make_main(self):
+		self.is_main = not self.is_main
+		self.save()

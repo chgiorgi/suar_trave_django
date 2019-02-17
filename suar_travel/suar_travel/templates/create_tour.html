@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <form id="post_form" method="post" action="" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        {% for field in tour_form %}
+            {{ field }} <br />
+        {% endfor %}
+
+        {{ formset.management_form }}
+        {% for form in image_form %}
+            {{ form }}
+        {% endfor %}
+
+
+        <input type="submit" name="submit" value="Submit" />
+    </form>
+
+
+{% endblock %}
