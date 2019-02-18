@@ -5,19 +5,24 @@
 {% block content %}
 <div class="container footer-margin">
 
-    <h1>Login</h1>
+    <h1>Add Tour</h1>
+    {% if success %}
+    <h2>Tour Created successfully</h2>
+    {% elif error %}
+    <h2>{{error}}</h2>
+    {% else %}
 
-    <form id="post_form" method="post" action="/create-tour/" enctype="multipart/form-data">
+    <form id="post_form" method="post" action="/create/" enctype="multipart/form-data">
 
         {% csrf_token %}
 
         {% bootstrap_form tour_form %}
-        {% for form in image_form %}
-        {{ form }}
-        {% endfor %}
+        {% bootstrap_form image_form %}
+        {% bootstrap_form MainImageForm%}
 
         <input type="submit" name="submit" value="Submit"/>
     </form>
+    {% endif %}
 </div>
 
 {% endblock %}

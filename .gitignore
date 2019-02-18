@@ -1,5 +1,4 @@
 *.idea
-*/suar_travel/suar_travel/media/main_pics
-*/suar_travel/suar_travel/media/pictures
+**/media/pictures/**
 **/db.sqlite3
 **/__pycache__
