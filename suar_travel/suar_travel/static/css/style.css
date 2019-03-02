@@ -1610,3 +1610,7 @@ h1, h2, h3, h4, h5,
 .form-group .text-muted {
     display: none;
 }
+
+.destinations-img {
+    height: calc(100% - 76px);
+}
