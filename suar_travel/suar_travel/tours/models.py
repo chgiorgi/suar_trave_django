@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.timezone import now
+from unidecode import unidecode
 
 User = get_user_model()
 
@@ -20,12 +21,13 @@ class Tour(models.Model):
         return reverse('html name', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = slugify(unidecode(self.title))
         super().save(*args, **kwargs)
 
     def change_status(self):
         self.active = not self.active
         super().save()
+
 
     def __str__(self):
         return self.title

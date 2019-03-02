@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="site-section" data-aos="fade-up">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-5 mb-md-0">
+
+                    {% for img in tour.images.all %}
+                        {% if img.is_main %}
+                            <h1><img src="{{ img.image.url }}" alt="img" class="img-fluid"></h1>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                    <div class="col-md-6 pl-md-5">
+                        <h1 class="font-weight-light text-black mb-4">{{ tour.title }}</h1>
+
+                        <h3>{{ tour.destination }}</h3>
+                        <h3>{{ tour.duration }}</h3>
+                        <p>{{ tour.description }}</p>
+                        <h3>{{ tour.price }}</h3>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="site-section">
+
+        <div class="container">
+            <h1 class="text-center">Tour Gallery</h1>
+            <br>
+            <div class="row">
+                {% for img in tour.images.all %}
+                    <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
+                    <h1><img src="{{ img.image.url }}" alt="img" class="img-fluid"></h1>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+{% endblock %}

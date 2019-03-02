@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+
+    <div class="site-section">
+
+        <div class="container">
+            <div class="row">
+                {% for tour in tours %}
+                    <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
+
+                        <h2>{{ tour.title }}</h2>
+                        <h2>{{ tour.slug }}</h2>
+
+                        {% for img in tour.images.all %}
+
+                            <a href="{% url 'tours:tour_detail' slug=tour.slug %}" class="unit-1 text-center">
+                                {% if img.is_main %}
+
+                                    <img src="{{ img.image.url }}" alt="Image" class="img-fluid">
+
+                                {% endif %}
+
+                                <div class="unit-1-text">
+                                    <strong class="text-primary mb-2 d-block">{{ tour.price }}</strong>
+                                    <h3 class="unit-1-heading">{{ tour.title }}</h3>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+{% endblock %}

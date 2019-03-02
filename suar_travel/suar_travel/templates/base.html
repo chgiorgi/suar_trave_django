@@ -55,12 +55,13 @@
                             <li class="active"><a href="{% url 'tours:index' %}">Home</a>
                             </li>
                             <li class="has-children">
-                                <a href="destination.html">Destinations</a>
+                                <a href="{%  url 'tours:destination' %}">Destinations</a>
                                 <ul class="dropdown">
-                                    <li><a href="#">Japan</a></li>
-                                    <li><a href="#">Europe</a></li>
-                                    <li><a href="#">China</a></li>
-                                    <li><a href="#">France</a></li>
+                                    {% for tour in tours %}
+                                        <li><a href="{}">{{ tour.title }}</a></li>
+                                    {% endfor %}
+
+
                                 </ul>
                             </li>
                             <li><a href="about.html">About</a></li>
