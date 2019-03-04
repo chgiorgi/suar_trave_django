@@ -58,7 +58,7 @@
                                 <a href="{%  url 'tours:destination' %}">Destinations</a>
                                 <ul class="dropdown">
                                     {% for tour in tours %}
-                                        <li><a href="{}">{{ tour.title }}</a></li>
+                                        <li><a href="{% url 'tours:tour_detail' slug=tour.slug %}">{{ tour.title }}</a></li>
                                     {% endfor %}
 
 
