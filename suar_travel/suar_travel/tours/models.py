@@ -36,9 +36,9 @@ class Tour(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey(User, name='user', related_name='+', on_delete=models.CASCADE)
     tour = models.ForeignKey(Tour, name='tour', related_name='comments', on_delete=models.CASCADE)
-    text = models.TextField(max_length=3000)
+    text = models.TextField(max_length=4000)
     created_at = models.DateTimeField(default=now)
-    modified_at = models.DateTimeField()
+    modified_at = models.DateTimeField(default=now)
 
     def __str__(self):
         return self.text

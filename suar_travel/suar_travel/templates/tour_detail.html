@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load bootstrap4 %}
 {% block content %}
     <div class="site-section" data-aos="fade-up">
         <div class="container">
@@ -12,14 +12,14 @@
                         {% endif %}
                     {% endfor %}
                 </div>
-                    <div class="col-md-6 pl-md-5">
-                        <h1 class="font-weight-light text-black mb-4">{{ single_tour.title }}</h1>
+                <div class="col-md-6 pl-md-5">
+                    <h1 class="font-weight-light text-black mb-4">{{ single_tour.title }}</h1>
 
-                        <h3>{{ single_tour.destination }}</h3>
-                        <h3>{{ single_tour.duration }}</h3>
-                        <p>{{ single_tour.description }}</p>
-                        <h3>{{ single_tour.price }}</h3>
-                    </div>
+                    <h3>{{ single_tour.destination }}</h3>
+                    <h3>{{ single_tour.duration }}</h3>
+                    <p>{{ single_tour.description }}</p>
+                    <h3>{{ single_tour.price }}</h3>
+                </div>
 
             </div>
         </div>
@@ -27,7 +27,7 @@
 
 
 
-    <div class="site-section">
+    <div class="site-section" data-aos="fade-up">
 
         <div class="container">
             <h1 class="text-center">Tour Gallery</h1>
@@ -35,17 +35,47 @@
             <div class="row">
                 {% for img in single_tour.images.all %}
                     <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
-                    <h1><img src="{{ img.image.url }}" alt="img" class="img-fluid"></h1>
+                        <h1><img src="{{ img.image.url }}" alt="img" class="img-fluid"></h1>
                     </div>
                 {% endfor %}
 
             </div>
         </div>
     </div>
+    <div class="site-section" data-aos="fade-up">
+        <div class="container">
+            <ul>
 
+                {% for cmnt in single_tour.comments.all %}
+                    <li>{{ cmnt.user }}
+                        {{ cmnt.text }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 
+    <h1>Comments</h1>
+    {% if success %}
+        <h2>Comment Added Successfully</h2>
+    {% elif error %}
+        <h2>{{ error }}</h2>
+    {% else %}
 
+        <div class="site-section" data-aos="fade-up">
+            <div class="container">
+                <h1> {{ single_tour.slug }}</h1>
+                <form id="post_form" method="post" action="{% url 'tours:tour_detail' slug=single_tour.slug %}"
+                      enctype="multipart/form-data">
+                    <h1> {{ single_tour.slug }}</h1>
+                    {% csrf_token %}
 
+                    {% bootstrap_form tour_comments %}
+
+                    <input type="submit" name="submit" value="Submit"/>
+                </form>
+            </div>
+        </div>
+    {% endif %}
 
 
 

@@ -3,8 +3,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.db import transaction
 from django.views import generic
 
-from .form import ToursForm, ImageForm, MainImageForm
-from .models import Tour, Images
+from .form import ToursForm, ImageForm, MainImageForm, CommentForm
+from .models import Tour, Images, Comment
 
 
 class Home(generic.ListView):
@@ -63,24 +63,39 @@ class Destination(generic.ListView, SelectRelatedMixin):
 	context_object_name = "tours"
 
 
-# def get(self, request, *args, **kwargs):
-# 	k=request.objects.all()
-# 	print(k)
-
-
 class TourDetail(generic.DetailView):
 	model = Tour
 	template_name = 'tour_detail.html'
 
-	# context_object_name = 'tour'
+	def post(self, request, *args, **kwargs):
+		context = {}
+		commentform = CommentForm(request.POST, request.user)
+		if commentform.is_valid():
+			print('55585555555555555555555555555')
+			text = request.POST.get('text')
+			user = request.user
+			tour = self.get_object().id
+			comment = Comment.objects.create(text=text, user=user, tour_id=tour)
+
+			context={
+				'single_tour': self.get_object(),
+				'tour_comments': CommentForm(),
+				'tours': Tour.objects.all()
+			}
+		else:
+			print(commentform.errors, 52225663)
+			context['error'] = commentform.errors
+
+		return self.render_to_response(context)
 
 	def get(self, request, *args, **kwargs):
 		self.object = self.get_object()
 		context = {
 			'single_tour': self.object,
-			'tours': Tour.objects.all()
+			'tours': Tour.objects.all(),
+			'tour_comments': CommentForm()
 		}
-		print(self.object,self.get_context_data(object=self.object))
+		print(self.object, self.get_context_data(object=self.object))
 		print(request)
 
 		return self.render_to_response(context)
