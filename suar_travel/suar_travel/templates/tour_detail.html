@@ -44,25 +44,30 @@
     </div>
     <div class="site-section" data-aos="fade-up">
         <div class="container">
-            <h1>{{ single.comments.user }}</h1>
+
             <ul>
-                <h1>comment</h1>
+
                 {% for cmnt in single_tour.comments.all %}
 
-                    {% if user.is_authenticated and cmnt.user == user %}
-                        <form method="post" action="{% url 'tours:del_comment' slug=single_tour.slug %}" title="delete"
-                              class="btn btn-simple">
-                            {% csrf_token %}
 
-                            <span class="glyphicon glyphicon-remove text-danger" aria-hidden="true">
-                            <input type="submit" name="delete" value="Submit"/></span>
-                        </form>
+                    <div class="row">
+                        <li class="col-auto mr-auto">{{ cmnt.user }}:
+                            {{ cmnt.text }}</li>
+                        <div class="col-auto">
 
-                    {% endif %}
+                            {% if user.is_authenticated and cmnt.user == user %}
+                                <form method="post"
+                                      action="{% url 'tours:del_comment' pk=cmnt.id slug=single_tour.slug %}">
 
+                                    {% csrf_token %}
+                                    <input type="submit" name="delete" value="Delete"
+                                           class="glyphicon glyphicon-remove text-danger" aria-hidden="true"/>
+                                </form>
 
-                    <li>{{ cmnt.user }}
-                        {{ cmnt.text }}</li>
+                            {% endif %}
+
+                        </div>
+                    </div>
                 {% endfor %}
             </ul>
         </div>
