@@ -149,3 +149,15 @@ class DeleteComment(generic.DeleteView):
         self.object = self.get_object()
         self.object.delete()
         return HttpResponseRedirect(reverse('tours:tour_detail', kwargs={'slug': kwargs['slug']}))
+
+
+class EditComment(LoginRequiredMixin, generic.UpdateView):
+    login_url = 'user_management/login/'
+    model = Comment
+
+    def post(self, request, *args, **kwargs):
+        text = request.POST
+        pk=kwargs['pk']
+        self.object = self.get_object()
+        Comment.objects.filter(pk=pk).update(text=text)
+        return HttpResponseRedirect(reverse('tours:tour_detail', kwargs={'slug': kwargs['slug']}))
