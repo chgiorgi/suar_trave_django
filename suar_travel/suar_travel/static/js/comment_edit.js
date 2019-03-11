@@ -1,12 +1,15 @@
-
 // Get the button, and when the user clicks on it, execute myFunction
-document.getElementById("editform").onclick = function() {myFunction()};
 
 /* myFunction toggles between adding and removing the show class, which is used to hide and show the dropdown content */
-function myFunction() {
-    document.getElementById("com_form").classList.toggle("show");
+function showEditForm(id) {
+    document.getElementById(id).classList.toggle("show");
 }
 
+function onDelete(id) {
+    element = document.getElementById('delete_' + id);
+    console.log(element);
+    element.submit();
+}
 
 
 // function comment_form() {

@@ -1615,9 +1615,50 @@ h1, h2, h3, h4, h5,
     height: calc(100% - 76px);
 }
 
-.edit-cmnt {
+.comment-edit-form {
     display: none;
     /*visibility: hidden;*/
 }
 
-.show {display:block;}
+.on-hover:hover {
+    cursor: pointer;
+}
+
+.delete-form {
+    visibility: hidden;
+}
+
+.show {
+    display: block;
+}
+
+.action-btn {
+    margin: auto;
+}
+
+.comm-lst {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.comm-lst span {
+    padding: 0;
+}
+
+.comm-body {
+    margin-left: 12px;
+}
+
+.comm-item {
+    margin-bottom: 24px;
+}
+
+.cmnt-text {
+    background: #efefef;
+    border-radius: 3px;
+    padding: 5px !important;
+}
+
+.comment-textarea {
+    resize: none;
+}
