@@ -25,22 +25,34 @@
         </div>
     </div>
 
+    <h1 class="text-center">Tour Gallery</h1>
+    <br>
 
-    <div class="site-section" data-aos="fade-up">
+    <section class="welcome-area" data-aos="fade-up">
 
-        <div class="container">
-            <h1 class="text-center">Tour Gallery</h1>
-            <br>
-            <div class="row">
-                {% for img in single_tour.images.all %}
-                    <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
-                        <h1><img src="{{ img.image.url }}" alt="img" class="img-fluid"></h1>
-                    </div>
-                {% endfor %}
+        <div class="welcome-area">
+            <div class="carousel h-100 slide" data-ride="carousel" id="welcomeSlider">
+                <div class="carousel-inner h-100">
+                    {% for img in single_tour.images.all %}
 
+
+                        <div class="carousel-item h-100 bg-img {% if forloop.first %} active {% endif %}" style="background-image: url({{ img.image.url }});"></div>
+
+                        {#                        <h1><img src="{{ img.image.url }}" alt="img" class="img-fluid"></h1>#}
+                    {% endfor %}
+                </div>
+                <ol class="carousel-indicators">
+                    {% for img in single_tour.images.all %}
+
+                        <li data-target="#welcomeSlider" data-slide-to="{{ forloop.counter0 }}" class="bg-img"
+                            style="background-image: url({{ img.image.url }});"></li>
+
+                    {% endfor %}
+                </ol>
             </div>
         </div>
-    </div>
+
+    </section>
     <div class="site-section" data-aos="fade-up">
         <div class="container">
             <div class="row align-self-auto">
@@ -52,7 +64,7 @@
 
                     <li class="col comm-item">
                         <div class="row comm-body">
-                        <span class="col-10 user-name"><strong class="user-name">{{ cmnt.user }}:</strong></span>
+                            <span class="col-10 user-name"><strong class="user-name">{{ cmnt.user }}:</strong></span>
                         </div>
                         <div class="row comm-body">
                             <span class="col-10 cmnt-text">{{ cmnt.text }}</span>
@@ -102,27 +114,27 @@
 
             <h3>Add Comment</h3>
             {% if user.is_authenticated %}
-            <form id="post_form row" method="post" action="{% url 'tours:comment' slug=single_tour.slug %}"
-                  enctype="multipart/form-data">
+                <form id="post_form row" method="post" action="{% url 'tours:comment' slug=single_tour.slug %}"
+                      enctype="multipart/form-data">
 
-                {% csrf_token %}
-                <div class="col-md-10 col-sm-12">
-                    {% bootstrap_form tour_comments %}
-                </div>
-
-                    <input class="btn btn-light" type="submit" name="submit" value="Submit"/>
-                    </form>
-                {% else %}
+                    {% csrf_token %}
                     <div class="col-md-10 col-sm-12">
                         {% bootstrap_form tour_comments %}
                     </div>
+
+                    <input class="btn btn-light" type="submit" name="submit" value="Submit"/>
+                </form>
+            {% else %}
+                <div class="col-md-10 col-sm-12">
+                    {% bootstrap_form tour_comments %}
+                </div>
                 <a href="{% url 'accounts:login' %}">
                     <input class="btn btn-light" type="submit" name="submit" value="Submit"/>
                 </a>
 
 
 
-                {% endif %}
+            {% endif %}
         </div>
 
 
