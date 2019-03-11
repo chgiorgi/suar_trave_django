@@ -121,9 +121,10 @@ class TourDetail(generic.DetailView):
         return self.render_to_response(context)
 
 
-class CreateComment(generic.CreateView):
+class CreateComment(generic.CreateView, LoginRequiredMixin):
     model = Tour
     template_name = 'tour_detail.html'
+    login_url = '/accounts/login'
 
     def post(self, request, *args, **kwargs):
         context = {}
@@ -156,7 +157,7 @@ class EditComment(LoginRequiredMixin, generic.UpdateView):
     model = Comment
 
     def post(self, request, *args, **kwargs):
-        text = request.POST
+        text = request.POST['editing']
         pk=kwargs['pk']
         self.object = self.get_object()
         Comment.objects.filter(pk=pk).update(text=text)
