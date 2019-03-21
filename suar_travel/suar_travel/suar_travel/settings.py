@@ -39,7 +39,8 @@ INSTALLED_APPS = [
 	'django.contrib.staticfiles',
 	'tours',
 	'user_managment',
-	'bootstrap4'
+	'bootstrap4',
+	'phonenumber_field'
 ]
 
 MIDDLEWARE = [

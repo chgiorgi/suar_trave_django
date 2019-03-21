@@ -1687,3 +1687,79 @@ h1, h2, h3, h4, h5,
 .owl-nav {
     display: none;
 }
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.rate {
+    float: left;
+    height: 46px;
+    padding: 0 10px;
+}
+
+.rate:not(:checked) > input {
+    position: absolute;
+    top: -9999px;
+}
+
+.rate:not(:checked) > label {
+    float: right;
+    width: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 30px;
+    color: #ccc;
+}
+
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+
+.rate > input:checked ~ label {
+    color: #ffc700;
+}
+
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;
+}
+
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+
+.order-form {
+    width: 19%;
+    border-radius: 6px;
+    margin-right: 1%;
+    margin-top: 3%;
+    position: fixed;
+    right: 0;
+    top: 0;
+
+    border: 6px solid rgba(110, 109, 195, 0.56);
+    color: white;
+    background: rgba(94, 92, 214, 0.51);
+}
+.field-form{
+    background: rgba(114, 108, 213, 0.5);
+    color: black;
+}
+.image-align{
+    /*vertical-align: middle;*/
+    width: 50%;
+    height: 500px;
+    float: left;
+    margin: 5px;
+
+}
+.section-padding{
+    padding-bottom:14% ;
+}

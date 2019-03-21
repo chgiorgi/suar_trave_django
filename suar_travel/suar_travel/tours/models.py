@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.timezone import now
 from unidecode import unidecode
+from phonenumber_field.modelfields import PhoneNumberField
 
 User = get_user_model()
 
@@ -28,7 +29,6 @@ class Tour(models.Model):
         self.active = not self.active
         super().save()
 
-
     def __str__(self):
         return self.title
 
@@ -46,8 +46,11 @@ class Comment(models.Model):
 
 class Order(models.Model):
     tour = models.ForeignKey(Tour, name='tour', related_name='orders', on_delete=models.PROTECT)
-    user = models.ForeignKey(User, name='user', related_name='orders', on_delete=models.PROTECT)
+    user = models.ForeignKey(User, name='user', blank=True, related_name='orders', on_delete=models.PROTECT)
     ordered_at = models.DateTimeField(default=now)
+    desired_date = models.DateField(default=now)
+    person_quantity = models.PositiveIntegerField(default=0)
+    phone_number = PhoneNumberField(default='')
     status = models.CharField(max_length=120)
 
     def save(self, *args, **kwargs):
@@ -66,6 +69,9 @@ class Order(models.Model):
         self.status = 'Canceled'
         super().save()
 
+    def __str__(self):
+        return self.tour.title
+
     class Meta:
         permissions = (('can_cancel', 'user can cancel'), ('can_accept', 'admin can approve or reject'))
 
@@ -78,3 +84,8 @@ class Images(models.Model):
     def make_main(self):
         self.is_main = not self.is_main
         self.save()
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, related_name='prof_image', on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to='pictures', verbose_name='avatar', default='profile_pic.png')

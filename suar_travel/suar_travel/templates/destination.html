@@ -3,6 +3,9 @@
 {% block content %}
 
 
+
+
+
 <div class="site-section">
 
     <div class="container">
@@ -11,7 +14,7 @@
             <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
 
                 <h2>{{ tour.title }}</h2>
-                <h2>{{ tour.slug }}</h2>
+
 
                 {% for img in tour.images.all %}
                 {% if img.is_main %}
@@ -22,9 +25,23 @@
 
                     <div class="unit-1-text">
                         <strong class="text-primary mb-2 d-block">{{ tour.price }}</strong>
-                        <h3 class="unit-1-heading">{{ tour.title }}</h3>
+                        <h3 class="unit-1-heading">
+                            <div class="rate">
+                            <input type="radio" id="st1_{{ tour.slug }}" name="rate" value="5" />
+                            <label for="st1_{{ tour.slug }}" title="text">5 stars</label>
+                            <input type="radio" id="st2_{{ tour.slug }}" name="rate" value="4" />
+                            <label for="st2_{{ tour.slug }}" title="text">4 stars</label>
+                            <input type="radio" id="st3_{{ tour.slug }}" name="rate" value="3" />
+                            <label for="st3_{{ tour.slug }}" title="text">3 stars</label>
+                            <input type="radio" id="st4_{{ tour.slug }}" name="rate" value="2" />
+                            <label for="st4_{{ tour.slug }}" title="text">2 stars</label>
+                            <input type="radio" id="st5_{{ tour.slug }}" name="rate" value="1" />
+                            <label for="st5_{{ tour.slug }}" title="text">1 star</label>
+                        </div>
+                        </h3>
                     </div>
                 </a>
+
                 {% endif %}
                 {% endfor %}
             </div>

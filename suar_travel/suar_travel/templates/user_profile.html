@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-lg-2">
+                <img src="{{ user.prof_image.avatar.url }}" alt="img" class="img-fluid"
+                     style="max-height: 100%;min-height: 100%">
+                <h1>{{ req_user.username }}</h1>
+            </div>
+        </div>
+        <br>
+        <p>Upload Profile pic</p>
+        <form id="post_form" method="post" action="{% url 'tours:user_pic' %}" enctype="multipart/form-data">
+
+            {% csrf_token %}
+            {% bootstrap_form prof_pic %}
+            <input type="submit" value="submit">
+        </form>
+
+    </div>
+
+
+
+
+
+
+    <h2 class="text-center">My Bookings</h2>
+
+    <div class="site-section">
+        <div class="container">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Booked Tour</th>
+                    <th>Desired Date</th>
+                    <th>Order Date</th>
+                    <th>Person Quantity</th>
+                    <th>Phone Number</th>
+                    <th>Booking Status</th>
+                    <th></th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for ord in req_user.orders.all %}
+                    <tr>
+                        <td><a href="{% url 'tours:tour_detail' slug=ord.tour.slug %}">{{ ord }}</a></td>
+                        <td>{{ ord.desired_date }}</td>
+                        <td>{{ ord.ordered_at }}</td>
+                        <td>{{ ord.person_quantity }}</td>
+                        <td>{{ ord.phone_number }}</td>
+                        <td>{{ ord.status }}</td>
+                        <td>
+                            <form method="post" action="{% url 'tours:cancel' pk=ord.id %}">
+                                {% csrf_token %}
+                                <input type="submit" value="Cancel"></form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+
+    <!-- Load Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                xfbml            : true,
+                version          : 'v3.2'
+            });
+        };
+
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            console.log(d.getElementsByTagName(s));
+            console.log(js);
+            console.log(fjs);
+            if (d.getElementById(id))
+                return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <!-- Your customer chat code -->
+    <div class="fb-customerchat"
+         attribution=setup_tool
+         page_id="864402297025781"
+         theme_color="#67b868">
+    </div>
+
+{% endblock %}
