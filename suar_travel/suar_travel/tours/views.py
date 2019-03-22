@@ -8,8 +8,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.contrib.auth import get_user_model
-from .form import ToursForm, ImageForm, MainImageForm, CommentForm, OrderForm, UserProfileForm
-from .models import Tour, Images, Comment, Order, UserProfile
+from .form import ToursForm, ImageForm, MainImageForm, CommentForm, OrderForm, UserProfileForm, VideoForm
+from .models import Tour, Images, Comment, Order, UserProfile,Videos
 from django.contrib.messages.views import SuccessMessageMixin
 
 User = get_user_model()
@@ -20,6 +20,14 @@ class Home(generic.ListView):
     template_name = 'index.html'
     context_object_name = 'tours'
 
+    # def get(self, request, *args, **kwargs):
+    #     tour_object = self.objects.all
+    #     context = {
+    #         'tours': Tour(),
+    #         'get_tours': tour_object
+    #     }
+    #
+
 
 class TourCreateForm(generic.FormView, LoginRequiredMixin, PermissionRequiredMixin):
     permission_required = 'add_tour'
@@ -29,7 +37,8 @@ class TourCreateForm(generic.FormView, LoginRequiredMixin, PermissionRequiredMix
         context = {
             'tour_form': ToursForm(),
             'image_form': ImageForm(),
-            'MainImageForm': MainImageForm()
+            'MainImageForm': MainImageForm(),
+            'videoform':VideoForm()
         }
         return self.render_to_response(context)
 
@@ -60,6 +69,11 @@ class TourCreate(generic.FormView, LoginRequiredMixin, PermissionRequiredMixin):
                 image.tour = tour_form
                 image.image.save(name=file.name, content=file)
                 image.save()
+            for file in request.FILES.getlist('video'):
+                video = Videos()
+                video.tour = tour_form
+                video.video.save(name=file.name, content=file)
+                video.save()
 
             context['success'] = True
         else:

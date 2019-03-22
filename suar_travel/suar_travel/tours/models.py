@@ -86,6 +86,11 @@ class Images(models.Model):
         self.save()
 
 
+class Videos(models.Model):
+    tour = models.ForeignKey(Tour, default=None, related_name='videos', on_delete=False)
+    video = models.FileField(upload_to='videos', verbose_name='Video')
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='prof_image', on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='pictures', verbose_name='avatar', default='profile_pic.png')

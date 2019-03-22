@@ -43,7 +43,7 @@
                         <div class="carousel-inner h-100">
                             {% for img in single_tour.images.all %}
                                 <div class="carousel-item h-100 bg-img {% if forloop.first %} active {% endif %}"
-                                     style="background-image: url({{ img.image.url }});"></div>
+                                     style="background-image: url({{ img.image.url }}{{ img.video.url }});"></div>
                                 {# <h1><img src="{{ img.image.url }}" alt="img" class="img-fluid"></h1>#}
                             {% endfor %}
                         </div>
@@ -60,6 +60,22 @@
             </section>
         </div>
     </div>
+    <div class="site-section" data-aos="fade-up">
+        <div class="container text-center">
+
+            {% for video in single_tour.videos.all %}
+
+
+
+                <video width='800' controls>
+                    <source src='{{video.video.url }}' type='video/mp4'>
+                    Your browser does not support the video tag.
+                </video>
+            {% endfor %}
+        </div>
+    </div>
+
+
     <div class="site-section" data-aos="fade-up">
         <div class="container">
             <div class="row align-self-auto">

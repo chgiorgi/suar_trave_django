@@ -1,10 +1,8 @@
 from django import forms
-import datetime
 
-from django.core.files.images import get_image_dimensions
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
 
-from .models import Tour, Images, Comment, Order, UserProfile
+from .models import Tour, Images, Comment, Order, UserProfile, Videos
 from django.forms.widgets import SelectDateWidget
 
 from phonenumber_field.formfields import PhoneNumberField
@@ -83,3 +81,10 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ('avatar',)
 
+
+class VideoForm(forms.ModelForm):
+    video = forms.FileField(label='Upload Videos', widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
+    class Meta:
+        model = Videos
+        fields = ('video',)
