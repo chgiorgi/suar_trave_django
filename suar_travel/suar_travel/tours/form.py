@@ -74,6 +74,37 @@ class OrderForm(forms.ModelForm):
         self.fields['person_quantity'].widget.attrs.update({'class': 'field-form'})
 
 
+class OrderFormClient(forms.ModelForm):
+    desired_date = forms.DateField(widget=SelectDateWidget)
+    phone_number = PhoneNumberField(widget=PhoneNumberPrefixWidget)
+    person_quantity = forms.IntegerField(required=True)
+    mail = forms.EmailField(required=True, )
+    first_name = forms.CharField(max_length=250)
+    last_name = forms.CharField(max_length=250)
+
+    class Meta:
+        model = Order
+        fields = ( 'last_name', 'first_name','mail', 'desired_date', 'person_quantity', 'phone_number',)
+
+    def clean_desired_date(self):
+        clean_d_date = self.cleaned_data['desired_date']
+        return clean_d_date
+
+    def clean_phone_number(self):
+        clean_p_number = self.cleaned_data['phone_number']
+        return clean_p_number
+
+    def clean_person_quantity(self):
+        clean_p_quantity = self.cleaned_data['person_quantity']
+        return clean_p_quantity
+
+    def __init__(self, *args, **kwargs):
+        super(OrderFormClient, self).__init__(*args, **kwargs)
+        self.fields['desired_date'].widget.attrs.update({'class': 'field-form'})
+        self.fields['phone_number'].widget.attrs.update({'class': 'field-form'})
+        self.fields['person_quantity'].widget.attrs.update({'class': 'field-form'})
+
+
 class UserProfileForm(forms.ModelForm):
     avatar = forms.ImageField(label='Profile Pic', widget=forms.ClearableFileInput())
 

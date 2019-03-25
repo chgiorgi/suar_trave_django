@@ -34,7 +34,7 @@
 
 
     <div class="site-section section-padding" data-aos="fade-up">
-        <div class="container">
+        <div class="">
             <h1 class="text-center">Tour Gallery</h1>
             <br>
             <section class="welcome-area" data-aos="fade-up">
@@ -68,7 +68,7 @@
 
 
                 <video width='800' controls>
-                    <source src='{{video.video.url }}' type='video/mp4'>
+                    <source src='{{ video.video.url }}' type='video/mp4'>
                     Your browser does not support the video tag.
                 </video>
             {% endfor %}
@@ -161,23 +161,44 @@
 
 
     </div>
-    <div class="order-form ">
-        <form method="post" action="{% url 'tours:order' pk=single_tour.id slug=single_tour.slug %}">
-            {% csrf_token %}
-            {% bootstrap_form order_form %}
-            <input type="submit" value="BOOK" name="book">
-            {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-                            {{ message }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </form>
-    </div>
+    {% if user.is_authenticated %}
 
+
+        <div class="order-form ">
+            <form method="post" action="{% url 'tours:order' pk=single_tour.id slug=single_tour.slug %}">
+                {% csrf_token %}
+                {% bootstrap_form order_form %}
+                <input type="submit" value="BOOK" name="book">
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                                {{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </form>
+        </div>
+    {% else %}
+        <div class="order-form ">
+            <form method="post" action="{% url 'tours:order' pk=single_tour.id slug=single_tour.slug %}">
+                {% csrf_token %}
+                {% bootstrap_form client_order %}
+                <input type="submit" value="BOOK" name="book">
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                                {{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </form>
+        </div>
+    {% endif %}
 
 {% endblock %}

@@ -46,7 +46,10 @@ class Comment(models.Model):
 
 class Order(models.Model):
     tour = models.ForeignKey(Tour, name='tour', related_name='orders', on_delete=models.PROTECT)
-    user = models.ForeignKey(User, name='user', blank=True, related_name='orders', on_delete=models.PROTECT)
+    user=models.ForeignKey(User,name='user',related_name='orders',blank=True,null=True, on_delete=False)
+    first_name = models.CharField(max_length=250,default=None)
+    last_name = models.CharField(max_length=280,default=None)
+    mail = models.EmailField( max_length=200,default=None)
     ordered_at = models.DateTimeField(default=now)
     desired_date = models.DateField(default=now)
     person_quantity = models.PositiveIntegerField(default=0)

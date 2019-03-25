@@ -8,8 +8,9 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.contrib.auth import get_user_model
-from .form import ToursForm, ImageForm, MainImageForm, CommentForm, OrderForm, UserProfileForm, VideoForm
-from .models import Tour, Images, Comment, Order, UserProfile,Videos
+from .form import ToursForm, ImageForm, MainImageForm, CommentForm, OrderForm, UserProfileForm, VideoForm, \
+    OrderFormClient
+from .models import Tour, Images, Comment, Order, UserProfile, Videos
 from django.contrib.messages.views import SuccessMessageMixin
 
 User = get_user_model()
@@ -38,7 +39,7 @@ class TourCreateForm(generic.FormView, LoginRequiredMixin, PermissionRequiredMix
             'tour_form': ToursForm(),
             'image_form': ImageForm(),
             'MainImageForm': MainImageForm(),
-            'videoform':VideoForm()
+            'videoform': VideoForm()
         }
         return self.render_to_response(context)
 
@@ -101,6 +102,7 @@ class TourDetail(generic.DetailView):
             'tours': Tour.objects.all(),
             'tour_comments': CommentForm(),
             'order_form': OrderForm(),
+            'client_order': OrderFormClient()
 
         }
         # print(self.object, self.get_context_data(object=self.object))
@@ -152,31 +154,59 @@ class EditComment(LoginRequiredMixin, generic.UpdateView):
         return HttpResponseRedirect(reverse('tours:tour_detail', kwargs={'slug': kwargs['slug']}))
 
 
-class MakeOrder(LoginRequiredMixin, generic.CreateView, SuccessMessageMixin):
+class MakeOrder(generic.CreateView, SuccessMessageMixin):
     model = Tour
     template_name = 'tour_detail.html'
     login_url = '/accounts/login'
 
     def post(self, request, *args, **kwargs):
 
-        ordform = OrderForm(request.POST, request.user)
-        if ordform.is_valid():
-            print(7777777777777777777777777777777777777777777777777777777777777)
-            desired_date = ordform.clean_desired_date()
-            p_quantity = ordform.clean_person_quantity()
-            p_number = ordform.clean_phone_number()
-            status = 'pending'
-            tour = kwargs['pk']
-            user = request.user
-            Order.objects.create(tour_id=tour, user=user, status=status, phone_number=p_number,
-                                 person_quantity=p_quantity, desired_date=desired_date)
-            messages.success(request,
-                             "Thanks for booking. \n your tour booked  we will contact you about further details")
-            return HttpResponseRedirect(reverse('tours:tour_detail', kwargs={'slug': kwargs['slug']}))
+        if request.user.is_authenticated:
+            ordform = OrderForm(request.POST, request.user)
+            if ordform.is_valid():
+                print(7777777777777777777777777777777777777777777777777777777777777)
+                desired_date = ordform.clean_desired_date()
+                p_quantity = ordform.clean_person_quantity()
+                p_number = ordform.clean_phone_number()
+                status = 'pending'
+                tour = kwargs['pk']
+                user = request.user
+                email = request.user.email
+                first_name = request.user.first_name
+                last_name = request.user.last_name
+                Order.objects.create(tour_id=tour, mail=email, first_name=first_name, last_name=last_name,
+                                     status=status, phone_number=p_number, user=user,
+                                     person_quantity=p_quantity, desired_date=desired_date)
+                messages.success(request,
+                                 "Thanks for booking. \n your tour booked  we will contact you about further details")
+                return HttpResponseRedirect(reverse('tours:tour_detail', kwargs={'slug': kwargs['slug']}))
+            else:
+                messages.success(request,
+                                 "Please enter correct Phone number")
+                return HttpResponseRedirect(reverse('tours:tour_detail', kwargs={'slug': kwargs['slug']}))
         else:
-            messages.success(request,
-                             "Please enter correct Phone number")
-            return HttpResponseRedirect(reverse('tours:tour_detail', kwargs={'slug': kwargs['slug']}))
+            clientform = OrderFormClient(request.POST, request.user)
+            if clientform.is_valid():
+                print(7777777777777777777777777777777777777777777777777777777777777)
+                desired_date = clientform.clean_desired_date()
+                p_quantity = clientform.clean_person_quantity()
+                p_number = clientform.clean_phone_number()
+                status = 'pending'
+                tour = kwargs['pk']
+                user = None
+                email = request.POST['mail']
+                first_name = request.POST['first_name']
+                last_name = request.POST['last_name']
+                Order.objects.create(tour_id=tour, mail=email, first_name=first_name, last_name=last_name,
+                                     status=status, phone_number=p_number, user=user,
+                                     person_quantity=p_quantity, desired_date=desired_date)
+                messages.success(request,
+                                 "Thanks for booking. \n your tour booked  we will contact you about further details")
+                return HttpResponseRedirect(reverse('tours:tour_detail', kwargs={'slug': kwargs['slug']}))
+            else:
+                messages.success(request,
+                                 "Please enter correct Phone number")
+                return HttpResponseRedirect(reverse('tours:tour_detail', kwargs={'slug': kwargs['slug']}))
 
 
 class UserProfileView(generic.DetailView):
